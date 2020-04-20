@@ -80,49 +80,14 @@ def viral_peptides_from_fasta(replicate_selection=None):
                                 family, genus, species, genotype, sep='\t')
 
 
-def blcl9_split():
-    from functools import partial
-    import dataset_tools as dt
-    
-    class Manager(dt.RegressionManager):
-        def submit(self):
-            self.ex = self.executor(max_workers=self.main_workers)
-            for t in self.trainers:
-                t.dataset_name += '_' + t.variable
-                fct = partial(t._data_preprocessing, retain_cols=True)
-                p = self.ex.submit(fct)
-                self.processes.append(p)
-            print(self.ex)
-            self.ex.run()  # takes care of threads in main
-            self.trainers = [p.result() for p in self.processes]
-            self.ex.shutdown()
-            print('SUCCESS')
-
-    manager = Manager(blcl=True, mpi=False, workers=3)
-    manager.ann_versions = ['7']
-    manager.get_datasets()
-    for variable in ['affinity', 'rank']:
-        manager.initialize_trainers(variable=variable, threshold=None, max_duplications=None)
-    manager.main_workers += 2  # because we add 2 trainers
-    manager.submit()
-
-    for trainer in manager.trainers:
-        trainer.df.Class = trainer.df.Class.astype(bool)
-        df_pos = trainer.df[trainer.df.Class]
-        df_neg = trainer.df[~trainer.df.Class]
-        fn_base = 'virus_project/output/human/' + trainer.dataset_name
-        df_pos.to_csv(fn_base + '.Source.7.tsv', sep='\t', float_format='%g')
-        df_neg.to_csv(fn_base + '.NonSource.7.tsv', sep='\t', float_format='%g') 
-
-
 def format_human_files():
     import pandas as pd
     import numpy as np
     
     dfs = []
     for status in ['Source', 'NonSource']:
-        fn_1 = 'virus_project/output/human/HumanBLCL_trainDS_NetMHCpan-4.0a_affinity.' + status + '.7.tsv'
-        fn_2 = 'virus_project/output/human/HumanBLCL_trainDS_NetMHCpan-4.0a_rank.' + status + '.7.tsv'
+        fn_1 = 'output/finalTables/uniqpeptides/HumanBLCL_trainDS_NetMHCpan-4.0a_affinity.' + status + '.7.tsv'
+        fn_2 = 'output/finalTables/uniqpeptides/HumanBLCL_trainDS_NetMHCpan-4.0a_rank.' + status + '.7.tsv'
         df_1 = pd.read_csv(fn_1, sep='\t')
         df_2 = pd.read_csv(fn_2, sep='\t')
         for col_name in df_1.columns.intersection(df_2.columns):
