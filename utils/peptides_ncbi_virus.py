@@ -5,6 +5,9 @@ def viral_peptides_from_fasta(replicate_selection=None):
     from parse import parse
     from model_tools import Model, available_models as am
     
+    if type(replicate_selection) == str or type(replicate_selection) == int:
+        replicate_selection = [int(replicate_selection)]
+
     fasta_file = 'virus_project/refseq/coding.fasta'
     meta = pd.read_csv('virus_project/refseq/metadata.csv', keep_default_na=False).set_index('Accession')
     meta_dct = meta.to_dict(orient='index')
@@ -135,7 +138,7 @@ def format_human_files():
             'ANNScore': 'SGD',
             'ANNShuffleScore': 'SGD_shuffle'
             }, axis=1).drop([
-            'Class', 'transcript_TPM', 'NetMHC_min_transcript_affinity', 'NetMHC_min_transcript_affinity',
+            'Class', 'transcript_TPM', 'NetMHC_min_transcript_affinity', 'NetMHC_min_transcript_rank',
             'tr_is_source', 'logTPM'
             ], axis=1).melt([
             'Peptide_sequence', 'Sub_accession', 'Rank', 'Binding_score', 'Log_BS'
@@ -208,17 +211,20 @@ def merge_human_virus(replicate):
     """
     import pandas as pd
 
-    f = 'virus_project/output/peptides/viral.peptides.NetMHCpan4.0a.43HLAs_minBS.tsv'
-    netmhc_df = pd.read_csv(f, sep='\t', header=0, index_col=0)
+    if type(replicate) == int:
+        replicate = str(replicate)
+
+    netmhc = 'virus_project/output/peptides/viral.peptides.NetMHCpan4.0a.43HLAs_minBS.tsv'
+    viruses = 'virus_project/output/predictions/viruses.' + replicate + '.tsv'
+    human = 'virus_project/output/predictions/human.' + replicate + '.tsv'
+
+    netmhc_df = pd.read_csv(netmhc, sep='\t', header=0, index_col=0)
     netmhc_df = netmhc_df.rename({'Rank_min': 'Rank',
                                   'Binding_score_min':'Binding_score',
                                   'Log_BS_max':'Log_BS'}, axis=1)
 
-    filename = 'virus_project/output/predictions/viruses.' + replicate + '.tsv'
-    human = 'virus_project/output/predictions/human.' + replicate + '.tsv'
-
-    df_cur = pd.read_csv(filename, sep='\t', header=0, index_col=None, dtype={'Genotype': str})
-    df = df_cur.merge(netmhc_df, left_on='Peptide_sequence', right_index=True, sort=False)
+    df_cur = pd.read_csv(viruses, sep='\t', header=0, index_col=None, dtype={'Genotype': str})
+    df = df_cur.merge(netmhc_df, left_on='Peptide_sequence', right_index=True, sort=False, how='left')
 
     df = df[["Method", "Context_size", "Model_run", "Accession", "Protein_accession",
         "Position_start_one_based", "Position_end_one_based", "Peptide_length",
