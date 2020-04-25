@@ -1,0 +1,56 @@
+Number,Gene,Protein,Sequence,Start-residue,End-residue,Tcell
+1,Replicase,orf1ab polyprotein (pp1ab),TCGYLPTNAVVKMPC,356,370,CD8
+2,Replicase,orf1ab polyprotein (pp1ab),LLATNNVFRLKGGAP,806,820,CD8
+3,Replicase,orf1ab polyprotein (pp1ab),EPVNQFTGYLKLTDN,869,883,CD4
+4,Replicase,orf1ab polyprotein (pp1ab),ARFPKSDGTGTIYTE,4170,4186,CD8
+5,Replicase,orf1ab polyprotein (pp1ab),QRLTKYTMADLVYAL,4486,4500,CD4
+6,Replicase,orf1ab polyprotein (pp1ab),GNCDTLKEILVTYNC,4506,4520,CD8
+7,Replicase,orf1ab polyprotein (pp1ab),KIFVDGVPFVVSTGY,4701,4714,CD8
+8,Spike,E2 glycoprotein precursor,GVYYPDEIFRSDTLYL,39,54,CD8
+9,Spike,E2 glycoprotein precursor,FKNKDGFLYVYKGYQPI,187,203,CD8
+10,Spike,E2 glycoprotein precursor,IYQTSNFRVVPSGDVVRF,299,316,CD4
+11,Spike,E2 glycoprotein precursor,KKISNCVADYSVLYNSTF,343,360,CD8
+12,Spike,E2 glycoprotein precursor,KLPDDFMGCVCVLAWNTR,411,426,CD4
+13,Spike,E2 glycoprotein precursor,NIDATSTGNYNYKYRYLR,427,449,CD8
+14,Spike,E2 glycoprotein precursor,NYNYKYRYLRGKLRPF,435,451,CD4-CD8
+15,Spike,E2 glycoprotein precursor,GPKLSTDLIKNQCVNFNF,512,527,CD8
+16,Spike,E2 glycoprotein precursor,IKNQCVNFNFNGLTGTGV,520,537,CD4
+17,Spike,E2 glycoprotein precursor,NFNGLTGTGVLTPSSKRF,528,545,CD8
+18,Spike,E2 glycoprotein precursor,GVLTPSSKRFQPFQQFGR,536,553,CD4
+19,Spike,E2 glycoprotein precursor,WRIYSTGNNVFQTAQGCL,619,637,CD8
+20,Spike,E2 glycoprotein precursor,AGCLIGAEHVDTSYECDI,633,650,CD4-CD8
+21,Spike,E2 glycoprotein precursor,DIPIGAGICASYHTVSLL,649,666,CD8
+22,Spike,E2 glycoprotein precursor,LLRSTSQKSIVAYTMSL,665,681,CD8
+23,Spike,E2 glycoprotein precursor,KSIVAYTMSLGADSSIAY,672,689,CD8
+24,Spike,E2 glycoprotein precursor,VKQMYKTPTLKYFGGFNF,767,784,CD8
+25,Spike,E2 glycoprotein precursor,PLKPTKRSFIEDLLFNKV,791,808,CD4
+26,Spike,E2 glycoprotein precursor,VLPPLLTDDMIAAYTAAL,842,859,CD4
+27,Spike,E2 glycoprotein precursor,VLYENQKQIANQFNKAI,897,913,CD4
+28,Spike,E2 glycoprotein precursor,ESLTTTSTALGKLQDVV,918,934,CD4
+29,Spike,E2 glycoprotein precursor,EAEVQIDRLITGRLQSL,970,986,CD4
+30,Spike,E2 glycoprotein precursor,SWFITQRNFFSPQII,1082,1097,CD8
+31,Orf3,hypothetical protein sars3a,RFFTLGSITAQPVKI,6,20,CD4-CD8
+32,Orf3,hypothetical protein sars3a,PLQASLPFGWLVIGV,36,50,CD8
+33,Orf3,hypothetical protein sars3a,CRIIMRCWLCWKCKS,121,135,CD8
+34,Orf4,hypothetical protein sars3b,STNLCTHSFRKKQVR,140,154,CD8
+35,Envelope,Envelope,TLIVNSVLLFLAFVV,11,25,CD8
+36,Envelope,Envelope,AYCCNIVNVSLVKPT,41,55,CD8
+37,Membrane,matrix protein,VPLRGTIVTRPLMES,121,135,CD8
+38,Membrane,matrix protein,GHLRMAGHSLGRCDI,146,160,CD4-CD8
+39,Membrane,matrix protein,KDLPKEITVATSRTL,161,175,CD4-CD8
+40,Membrane,matrix protein,EITVATSRTLSYYKL,166,180,CD8
+41,Membrane,matrix protein,SYYKLGASQRVGTDS,176,189,CD8
+42,Membrane,matrix protein,GASQRVGTDSGFAAY,181,195,CD8
+43,Membrane,matrix protein,GFAAYNRYRIGNYKL,191,205,CD8
+44,Membrane,matrix protein,NRYRIGNYKLNTDHA,196,210,CD4-CD8
+45,Orf7,hypothetical protein sars6,IAEILIIIMRTFRIA,11,25,CD8
+46,Orf7,hypothetical protein sars6,IWNLDVIISSIVRQL,46,60,CD8
+47,Orf13,hypothetical protein sars9b,ILRLGSQLSLSMARR,46,60,CD8
+48,Orf13,hypothetical protein sars9b,NLDSLEARAFQSTPI,61,75,CD8
+49,Orf13,hypothetical protein sars9b,KLATTEELPDEFVVV,81,94,CD8
+50,Nucleocapsid,nucleocapsid protein,SPRWYFYYLGTGPEA,106,120,CD8
+51,Nucleocapsid,nucleocapsid protein,TGPEASLPYGANKEG,116,130,CD8
+52,Nucleocapsid,nucleocapsid protein,SLPYGANKEGIVWVA,121,135,CD8
+53,Nucleocapsid,nucleocapsid protein,GETALALLLLDRLNQ,211,225,CD8
+54,Nucleocapsid,nucleocapsid protein,KHIDAYKTFPPTEPK,356,370,CD8
+55,Nucleocapsid,nucleocapsid protein,YKTFPPTEPKKDKKK,361,375,CD8
