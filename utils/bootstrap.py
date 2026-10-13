@@ -7,13 +7,13 @@ from concurrent.futures import ProcessPoolExecutor as ppe
 from functools import partial
 from itertools import islice
 
-df = pd.read_csv('virus_project/output/predictions/NC_004718.BS.tsv.gz', sep='\t', compression='gzip')
+df = pd.read_csv('output/predictions/NC_004718.BS.tsv.gz', sep='\t', compression='gzip')
 df = df[(df.Method == 'SGD') & (df.Context_size == 162)]
 
-with open('virus_project/validation/SarsCoV1/grifoni.txt', 'r') as f:
+with open('validation/SarsCoV1/grifoni.txt', 'r') as f:
     grifoni_peplist = set([x.strip() for x in f.readlines()])
 
-valid = pd.read_csv('virus_project/validation/SarsCoV1/EpitopeList_SARS-COV.csv', index_col=0)
+valid = pd.read_csv('validation/SarsCoV1/EpitopeList_SARS-COV.csv', index_col=0)
 peplist = []
 for pep in valid[~(valid.Tcell == 'CD4')].Sequence:
     for i in range(len(pep)):
@@ -28,7 +28,7 @@ peplist.update(grifoni_peplist)
 subdf_wgrif = df[df.Peptide_sequence.isin(peplist)]
 subdf_wgrif = subdf_wgrif[subdf_wgrif.Rank < 1]
 
-valid = pd.read_csv('virus_project/validation/SarsCoV1/EpitopeList_SARS-COV.csv', index_col=0)
+valid = pd.read_csv('validation/SarsCoV1/EpitopeList_SARS-COV.csv', index_col=0)
 peplist_top = []
 for pep in valid[~(valid.Tcell == 'CD4')].Sequence:
     this_peplist = []

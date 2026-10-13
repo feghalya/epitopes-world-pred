@@ -86,7 +86,7 @@ def viral_peptides_from_fasta(accession='NC_004718', replicate_selection=7):
     if type(replicate_selection) == str or type(replicate_selection) == int:
         replicate_selection = [int(replicate_selection)]
 
-    fasta_file = 'virus_project/ncbi/%s.coding.fa' % accession
+    fasta_file = 'ncbi/%s.coding.fa' % accession
 
     peptide_lengths = [8, 9, 10, 11]
     context_size_selection = [9, 27, 81, 162]
@@ -121,7 +121,7 @@ def viral_peptides_from_fasta(accession='NC_004718', replicate_selection=7):
 def merge_netmhc_files():
     import pandas as pd
     import os
-    base = 'virus_project/output/peptides/sarscov'
+    base = 'output/peptides/sarscov'
     netmhc_folder = base + '/NetMHCpan4.0a'
     dfs = []
     for fn_allele in os.listdir(netmhc_folder):
@@ -160,8 +160,8 @@ def join_netmhc_to_virus(accession):
     """
     import pandas as pd
 
-    netmhc = 'virus_project/output/peptides/sarscov/sarscov.peptides.NetMHCpan4.0a.43HLAs.MAIN.tsv.gz'
-    viruses = 'virus_project/output/predictions/' + accession + '.tsv'
+    netmhc = 'output/peptides/sarscov/sarscov.peptides.NetMHCpan4.0a.43HLAs.MAIN.tsv.gz'
+    viruses = 'output/predictions/' + accession + '.tsv'
 
     netmhc_df = pd.read_csv(netmhc, sep='\t', header=0, index_col=0,
         usecols=['Peptide', 'Rank_min', 'Binding_score_min', 'Log_BS_max'], compression='gzip')
@@ -179,7 +179,7 @@ def join_netmhc_to_virus(accession):
         'Rank', 'Binding_score', 'Log_BS',
         'Gene_name', 'Protein_accession', 'Protein_description', 'Location']]
 
-    df.to_csv('virus_project/output/predictions/' + accession + '.BS.tsv', sep='\t', index=False,
+    df.to_csv('output/predictions/' + accession + '.BS.tsv', sep='\t', index=False,
         float_format='%g', na_rep='nan')
 
 
@@ -236,7 +236,7 @@ def format_human_files():
         dfs.append(df)
 
     df = pd.concat(dfs, axis=0)
-    df.to_csv('virus_project/output/predictions/human.7.tsv.gz', sep='\t',
+    df.to_csv('output/predictions/human.7.tsv.gz', sep='\t',
         index=False, float_format='%g', compression='gzip')
 
 
@@ -245,7 +245,7 @@ def join_human_virus_predictions():
     """
     import pandas as pd
 
-    human = pd.read_csv("virus_project/output/predictions/human.7.tsv.gz", sep="\t")
+    human = pd.read_csv("output/predictions/human.7.tsv.gz", sep="\t")
     human = human[human.Method == "SGD"]
     human["Name"] = human.Accession
     human.Name = human.Name.str.replace("GRCh37.75", "Human")
@@ -254,18 +254,18 @@ def join_human_virus_predictions():
     print("Human Decoy %d Peptides" % len(human[human.Name == "Human[Decoy]"].Peptide_sequence.unique()))
     print("Human Decoy %d Entries" % len(human[human.Name == "Human[Decoy]"].Peptide_sequence))
 
-    v1 = pd.read_csv("virus_project/output/predictions/NC_045512.BS.tsv.gz", sep="\t")
+    v1 = pd.read_csv("output/predictions/NC_045512.BS.tsv.gz", sep="\t")
     v1 = v1[(v1.Method == "SGD") & (v1.Context_size == 162) & (v1.Protein_description != "ORF1a polyprotein")]
     v1["Name"] = "SARS-CoV-2"
     print("SARS-CoV-2 %d Peptides" % len(v1.Peptide_sequence.unique()))
     print("SARS-CoV-2 %d Entries" % len(v1.Peptide_sequence))
 
-    v2 = pd.read_csv("virus_project/output/predictions/NC_004718.BS.tsv.gz", sep="\t")
+    v2 = pd.read_csv("output/predictions/NC_004718.BS.tsv.gz", sep="\t")
     v2 = v2[(v2.Method == "SGD") & (v2.Context_size == 162) & (v2.Protein_description != "orf1a polyprotein (pp1a)")]
     v2["Name"] = "SARS-CoV-1"
     print("SARS-CoV-1 %d Peptides" % len(v2.Peptide_sequence.unique()))
     print("SARS-CoV-1 %d Entries" % len(v2.Peptide_sequence))
 
     df = pd.concat([v1, v2, human])
-    df.to_csv("virus_project/output/predictions/virman.filtered.tsv.gz",
+    df.to_csv("output/predictions/virman.filtered.tsv.gz",
         sep="\t", float_format="%g", index=False, compression="gzip")
