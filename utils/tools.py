@@ -136,17 +136,17 @@ def merge_netmhc_files():
     df.to_csv(fn_out, sep='\t', float_format='%g', compression='gzip')
 
     subdf = df.loc[:, (slice(None), ['Rank'])]
-    subdf.columns = ['Rank_' + x for x in list(zip((*df.loc[:, (slice(None), ['Rank'])].columns)))[0]]
+    subdf.columns = ['Rank_' + x for x in list(zip(*df.loc[:, (slice(None), ['Rank'])].columns))[0]]
     rank = subdf.reset_index().drop(['Pos', 'ID'], axis=1).set_index('Peptide')
     rank['Rank_min'] = rank.min(axis=1)
 
     subdf = df.loc[:, (slice(None), ['nM'])]
-    subdf.columns = ['Binding_score_' + x for x in list(zip((*df.loc[:, (slice(None), ['nM'])].columns)))[0]]
+    subdf.columns = ['Binding_score_' + x for x in list(zip(*df.loc[:, (slice(None), ['nM'])].columns))[0]]
     bs = subdf.reset_index().drop(['Pos', 'ID'], axis=1).set_index('Peptide')
     bs['Binding_score_min'] = bs.min(axis=1)
 
     subdf = df.loc[:, (slice(None), ['1-log50k'])]
-    subdf.columns = ['Log_BS_' + x for x in list(zip((*df.loc[:, (slice(None), ['1-log50k'])].columns)))[0]]
+    subdf.columns = ['Log_BS_' + x for x in list(zip(*df.loc[:, (slice(None), ['1-log50k'])].columns))[0]]
     logbs = subdf.reset_index().drop(['Pos', 'ID'], axis=1).set_index('Peptide')
     logbs['Log_BS_max'] = logbs.max(axis=1)
 
