@@ -80,7 +80,8 @@ def genbank_to_fasta(fn):
 def viral_peptides_from_fasta(accession='NC_004718', replicate_selection=7):
     import pandas as pd
     from parse import parse
-    from model_tools import Model, available_models as am
+    from model_tools import Model
+    from camaptools.utils import available_models as am
 
     if type(replicate_selection) == str or type(replicate_selection) == int:
         replicate_selection = [int(replicate_selection)]
@@ -89,22 +90,22 @@ def viral_peptides_from_fasta(accession='NC_004718', replicate_selection=7):
 
     peptide_lengths = [8, 9, 10, 11]
     context_size_selection = [9, 27, 81, 162]
-    method_selection = ['SGD', 'SGD_shuffle']
-
-    model_listing = am()
+    method_selection = ['SGD', 'SGD_Shuffle']
+    parameters = 'e4000'
+    target = 'test-bestMin-score.pytorch'
 
     print('\t'.join(['Method', 'Context_size', 'Model_run', 'Accession', 'Sub_accession',
         'Peptide_start_one_based', 'Peptide_length', 'Peptide_sequence', 'Score',
         'Gene_name', 'Protein_accession', 'Protein_description', 'Location']))
 
-    for context_size in model_listing.keys():
-        for method in model_listing[context_size].keys():
-            for i, model in enumerate(model_listing[context_size][method]):
+    # camaptools lists one context at a time and keys on {method: {params: [files]}}
+    for context_size in context_size_selection:
+        model_listing = am(target, context_size, method_selection, [parameters])
+        for method in model_listing.keys():
+            for i, model in enumerate(model_listing[method][parameters]):
                 replicate = i+1
-                ok_context_size = context_size_selection is None or context_size in context_size_selection
-                ok_method = method_selection is None or method in method_selection
                 ok_replicate = replicate_selection is None or replicate in replicate_selection
-                if ok_context_size and ok_method and ok_replicate:
+                if ok_replicate:
                     model = Model(model, context_size)
                     for tup in model.discover_peptides(fasta_file, peptide_lengths, coding=True):
                         header, one_base_peptide_start, peptide, score = tup
