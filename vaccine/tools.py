@@ -80,13 +80,13 @@ def genbank_to_fasta(fn):
 def viral_peptides_from_fasta(accession='NC_004718', replicate_selection=7):
     import pandas as pd
     from parse import parse
-    from model_tools import Model
+    from vaccine.model_tools import Model
     from camaptools.utils import available_models as am
 
     if type(replicate_selection) == str or type(replicate_selection) == int:
         replicate_selection = [int(replicate_selection)]
 
-    fasta_file = 'ncbi/%s.coding.fa' % accession
+    fasta_file = 'data/%s.coding.fa' % accession
 
     peptide_lengths = [8, 9, 10, 11]
     context_size_selection = [9, 27, 81, 162]
@@ -121,8 +121,7 @@ def viral_peptides_from_fasta(accession='NC_004718', replicate_selection=7):
 def merge_netmhc_files():
     import pandas as pd
     import os
-    base = 'output/peptides/sarscov'
-    netmhc_folder = base + '/NetMHCpan4.0a'
+    netmhc_folder = 'output/netmhc/sarscov'
     dfs = []
     for fn_allele in os.listdir(netmhc_folder):
         allele = fn_allele.split('.')[0].replace(':', '')
@@ -132,7 +131,7 @@ def merge_netmhc_files():
         dfs.append(temp_df)
         dfs[-1].columns = pd.MultiIndex.from_product([[allele], dfs[-1].columns])
     df = pd.concat(dfs, axis=1, sort=False, copy=False)
-    fn_out = base + '/sarscov.peptides.NetMHCpan4.0a.43HLAs.FULL.tsv.gz'
+    fn_out = 'output/tables/sarscov.peptides.NetMHCpan4.0a.43HLAs.FULL.tsv.gz'
     df.to_csv(fn_out, sep='\t', float_format='%g', compression='gzip')
 
     subdf = df.loc[:, (slice(None), ['Rank'])]
@@ -151,7 +150,7 @@ def merge_netmhc_files():
     logbs['Log_BS_max'] = logbs.max(axis=1)
 
     df_min = pd.concat([rank, bs, logbs], axis=1, sort=False, copy=False)
-    fn_out = base + '/sarscov.peptides.NetMHCpan4.0a.43HLAs.MAIN.tsv.gz'
+    fn_out = 'output/tables/sarscov.peptides.NetMHCpan4.0a.43HLAs.MAIN.tsv.gz'
     df_min.to_csv(fn_out, sep='\t', float_format='%g', compression='gzip')
 
 
@@ -160,7 +159,7 @@ def join_netmhc_to_virus(accession):
     """
     import pandas as pd
 
-    netmhc = 'output/peptides/sarscov/sarscov.peptides.NetMHCpan4.0a.43HLAs.MAIN.tsv.gz'
+    fn_out = 'output/tables/sarscov.peptides.NetMHCpan4.0a.43HLAs.MAIN.tsv.gz'
     viruses = 'output/predictions/' + accession + '.tsv'
 
     netmhc_df = pd.read_csv(netmhc, sep='\t', header=0, index_col=0,
